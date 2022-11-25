@@ -1,6 +1,9 @@
 package com.example.demo.controllers;
 
+import com.example.demo.exceptions.LinkServiceException;
 import com.example.demo.models.LinkModel;
+import com.example.demo.models.LinkService;
+import com.example.demo.models.LinkServiceInterface;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Value;
@@ -13,16 +16,14 @@ import java.util.List;
 
 @Controller
 public class MainController {
-    private List<LinkModel> dummyLinks = new ArrayList<>(getDummyLinks());
+//    private List<LinkModel> dummyLinks = new ArrayList<>(getDummyLinks());
+    private final LinkServiceInterface service = new LinkService();
 
     @RequestMapping("/")
-    public String home(@ModelAttribute LinkModel linkModel, Model model) {
-        if (linkModel != null) {
-            // todo insert via LinkService
-            dummyLinks.add(linkModel);
-        }
+    public String home(@ModelAttribute LinkModel linkModel, Model model) throws LinkServiceException {
+        service.saveLink(linkModel);
         model.addAttribute("title", "Main page");
-        model.addAttribute("links", dummyLinks);
+        model.addAttribute("links", service.getAllUserLinks(1));
         model.addAttribute("linkModel", new LinkModel());
         return "home";
     }
