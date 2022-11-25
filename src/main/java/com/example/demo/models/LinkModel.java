@@ -1,24 +1,30 @@
 package com.example.demo.models;
-
 public class LinkModel {
-    private final Integer authorId = 1;
-    private String linkName = "name";
-    private String linkURL = "url";
-    private String description = "no description";
+    private final Integer authorId;
+    private String linkName;
+    private String linkURL;
+    private String description;
 
-    public LinkModel() {}
+    public LinkModel() {
+        this("name");
+    }
 
     public LinkModel(String linkName) {
-        this.linkName = linkName;
+        this(linkName, "url");
     }
 
     public LinkModel(String linkName, String linkURL) {
-        this(linkName);
-        this.linkURL = linkURL;
+        this(linkName, linkURL, "no description");
     }
 
     public LinkModel(String linkName, String linkURL, String description) {
-        this(linkName, linkURL);
+        this(1, linkName, linkURL, description);
+    }
+
+    public LinkModel(Integer authorId, String linkName, String linkURL, String description) {
+        this.authorId = authorId;
+        this.linkURL = linkURL;
+        this.linkName = linkName;
         this.description = description;
     }
 

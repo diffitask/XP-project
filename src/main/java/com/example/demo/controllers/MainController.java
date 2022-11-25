@@ -14,6 +14,7 @@ import java.util.List;
 @Controller
 public class MainController {
 
+
     // главная страница
     @RequestMapping("/")
     // Model -- обязательный параметр.
