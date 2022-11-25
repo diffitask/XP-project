@@ -27,8 +27,11 @@ public class LinkService implements LinkServiceInterface {
     public void saveLink(LinkModel linkModel) throws LinkServiceException {
         HashMap<Integer, List<LinkModel>> usersLinkListMap = SerializingUtils.deserializeStructure(storageFileUrl, HashMap.class);
 
-        // map editing
+        if (usersLinkListMap == null) {
+            usersLinkListMap = new HashMap<>();
+        }
 
+        // map editing
         // TODO: при расширении функционала передавать в метод userId текущего пользователя, сохраняющего ссылку
         int userId = 1;
 
