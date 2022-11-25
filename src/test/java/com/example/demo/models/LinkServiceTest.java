@@ -2,11 +2,14 @@ package com.example.demo.models;
 
 import com.example.demo.exceptions.LinkServiceException;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -18,6 +21,15 @@ public class LinkServiceTest {
     @BeforeEach
     void setService() {
         service = new LinkService();
+    }
+
+    @AfterEach
+    void clearFile() throws FileNotFoundException {
+        String FILE_PATH = "./src/main/java/com/example/demo/data-storage/users-link-lists-storage.json";
+        PrintWriter writer = new PrintWriter(FILE_PATH);
+        writer.print("");
+        // other operations
+        writer.close();
     }
 
     @Test

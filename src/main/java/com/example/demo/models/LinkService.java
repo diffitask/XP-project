@@ -14,18 +14,20 @@ public class LinkService implements LinkServiceInterface {
 
     @Override
     public List<LinkModel> getAllUserLinks(Integer userId) throws LinkServiceException {
-        HashMap<Integer, List<LinkModel>> usersLinkListMap = SerializingUtils.deserializeStructure(storageFileUrl, HashMap.class);
+        MapSaver mapSaver = SerializingUtils.deserializeStructure(storageFileUrl, MapSaver.class);
+        HashMap<Integer, List<LinkModel>> usersLinkListMap = mapSaver.getUsersLinkListsMap();
 
-        if (usersLinkListMap.containsKey(userId)) {
+        if (usersLinkListMap != null && usersLinkListMap.containsKey(userId)) {
             return usersLinkListMap.get(userId);
         }
 
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public void saveLink(LinkModel linkModel) throws LinkServiceException {
-        HashMap<Integer, List<LinkModel>> usersLinkListMap = SerializingUtils.deserializeStructure(storageFileUrl, HashMap.class);
+        MapSaver mapSaver = SerializingUtils.deserializeStructure(storageFileUrl, MapSaver.class);
+        HashMap<Integer, List<LinkModel>> usersLinkListMap = mapSaver.getUsersLinkListsMap();
 
         if (usersLinkListMap == null) {
             usersLinkListMap = new HashMap<>();
@@ -44,6 +46,7 @@ public class LinkService implements LinkServiceInterface {
         usersLinkListMap.put(userId, userLinkList);
 
         // saving new information
-        SerializingUtils.serializeStructure(storageFileUrl, userLinkList);
+        mapSaver.setUsersLinkListsMap(usersLinkListMap);
+        SerializingUtils.serializeStructure(storageFileUrl, mapSaver);
     }
 }
