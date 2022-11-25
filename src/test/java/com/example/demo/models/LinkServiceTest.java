@@ -27,7 +27,7 @@ public class LinkServiceTest {
     void clearFile() throws FileNotFoundException {
         String FILE_PATH = "./src/main/java/com/example/demo/data-storage/users-link-lists-storage.json";
         PrintWriter writer = new PrintWriter(FILE_PATH);
-        writer.print("");
+        writer.print("{\n}");
         // other operations
         writer.close();
     }

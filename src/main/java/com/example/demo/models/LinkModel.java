@@ -1,4 +1,8 @@
 package com.example.demo.models;
+
+import lombok.Data;
+
+@Data
 public class LinkModel {
     private final Integer authorId;
     private String linkName;
@@ -26,29 +30,5 @@ public class LinkModel {
         this.linkURL = linkURL;
         this.linkName = linkName;
         this.description = description;
-    }
-
-    public String getLinkName() {
-        return linkName;
-    }
-
-    public String getLinkURL() {
-        return linkURL;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setLinkURL(String linkURL) {
-        this.linkURL = linkURL;
-    }
-
-    public void setLinkName(String linkName) {
-        this.linkName = linkName;
     }
 }
