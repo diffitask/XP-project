@@ -13,18 +13,16 @@ import java.util.List;
 
 @Controller
 public class MainController {
+    private List<LinkModel> dummyLinks = new ArrayList<>(getDummyLinks());
 
-
-    // главная страница
     @RequestMapping("/")
-    // Model -- обязательный параметр.
     public String home(@ModelAttribute LinkModel linkModel, Model model) {
-        var list = new ArrayList<>(List.copyOf(getDummyLinks()));
         if (linkModel != null) {
-            list.add(linkModel);
+            // todo insert via LinkService
+            dummyLinks.add(linkModel);
         }
         model.addAttribute("title", "Main page");
-        model.addAttribute("links", list);
+        model.addAttribute("links", dummyLinks);
         model.addAttribute("linkModel", new LinkModel());
         return "home";
     }
