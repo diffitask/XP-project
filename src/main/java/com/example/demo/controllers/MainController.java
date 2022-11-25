@@ -6,8 +6,7 @@ import lombok.Data;
 import lombok.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,14 +15,29 @@ import java.util.List;
 public class MainController {
 
     // главная страница
-    @GetMapping("/")
+    @RequestMapping("/")
     // Model -- обязательный параметр.
-    public String home(Model model) {
+    public String home(@ModelAttribute LinkModel linkModel, Model model) {
+        var list = new ArrayList<>(List.copyOf(getDummyLinks()));
+        if (linkModel != null) {
+            list.add(linkModel);
+        }
         model.addAttribute("title", "Main page");
-        model.addAttribute("links", getDummyLinks());
+        model.addAttribute("links", list);
+        model.addAttribute("linkModel", new LinkModel());
         // это шаблон home
         return "home";
     }
+//
+//    @RequestMapping("/submit")
+//    public String home(@ModelAttribute LinkModel linkModel, Model model) {
+//        // here save to LinkService
+//        getDummyLinks().add(linkModel);
+//        model.addAttribute("title", "Main page");
+//        model.addAttribute("links", getDummyLinks());
+//        model.addAttribute("linkModel", new LinkModel());
+//        return "home";
+//    }
 
     private List<LinkModel> getDummyLinks() {
         return List.of(

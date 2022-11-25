@@ -2,9 +2,11 @@ package com.example.demo.models;
 
 public class LinkModel {
     private final Integer authorId = 1;
-    private String linkName = "google";
-    private String linkURL = "google.com";
+    private String linkName = "name";
+    private String linkURL = "url";
     private String description = "no description";
+
+    public LinkModel() {}
 
     public LinkModel(String linkName) {
         this.linkName = linkName;
