@@ -1,5 +1,6 @@
 package com.example.demo.models;
 
+import com.example.demo.exceptions.LinkServiceException;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -16,23 +17,22 @@ public class LinkServiceTest {
 
     @BeforeEach
     void setService() {
-        // INSERT new IMPLEMENTATION OF SERVICE
-        // service = new LinkServiceImpl();
+        service = new LinkService();
     }
 
     @Test
-    void testNothingSaved() {
+    void testNothingSaved() throws LinkServiceException {
         Assertions.assertTrue(service.getAllUserLinks(TEST_ID).isEmpty());
     }
 
     @Test
-    void testSaveSimple() {
+    void testSaveSimple() throws LinkServiceException {
         service.saveLink(defaultLink(""));
         Assertions.assertEquals(defaultLink(""), service.getAllUserLinks(TEST_ID).get(0));
     }
 
     @Test
-    void testLinksOrder() {
+    void testLinksOrder() throws LinkServiceException {
         List<LinkModel> expectedLinks = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             expectedLinks.add(defaultLink(String.valueOf(i)));
