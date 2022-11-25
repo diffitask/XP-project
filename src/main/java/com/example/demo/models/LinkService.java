@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class LinkService implements LinkServiceInterface {
-    private final String storageFileUrl = "./data-storage/users-link-lists-storage.json";
+    private final String storageFileUrl = "../data-storage/users-link-lists-storage.json";
 
     public LinkService() {}
 
