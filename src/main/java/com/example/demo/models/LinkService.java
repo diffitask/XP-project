@@ -33,6 +33,10 @@ public class LinkService implements LinkServiceInterface {
             usersLinkListMap = new HashMap<>();
         }
 
+        if (usersLinkListMap.containsKey(1) && usersLinkListMap.get(1).contains(linkModel)) {
+            return;
+        }
+
         // map editing
         // TODO: при расширении функционала передавать в метод userId текущего пользователя, сохраняющего ссылку
         int userId = 1;
