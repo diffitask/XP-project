@@ -25,19 +25,8 @@ public class MainController {
         model.addAttribute("title", "Main page");
         model.addAttribute("links", list);
         model.addAttribute("linkModel", new LinkModel());
-        // это шаблон home
         return "home";
     }
-//
-//    @RequestMapping("/submit")
-//    public String home(@ModelAttribute LinkModel linkModel, Model model) {
-//        // here save to LinkService
-//        getDummyLinks().add(linkModel);
-//        model.addAttribute("title", "Main page");
-//        model.addAttribute("links", getDummyLinks());
-//        model.addAttribute("linkModel", new LinkModel());
-//        return "home";
-//    }
 
     private List<LinkModel> getDummyLinks() {
         return List.of(
