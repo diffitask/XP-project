@@ -4,25 +4,28 @@ import lombok.Data;
 
 @Data
 public class LinkModel {
+    private static final String DEFAULT_LINKNAME = "name";
+    private static final String DEFAULT_LINKURL = "url";
+    private static final String DEFAULT_DESCRIPTION = "no description";
     private final Integer authorId;
     private String linkName;
     private String linkURL;
     private String description;
 
     public LinkModel() {
-        this("name");
+        this(1);
     }
 
-    public LinkModel(String linkName) {
-        this(linkName, "url");
+    public LinkModel(Integer authorId) {
+        this(authorId, DEFAULT_LINKNAME);
     }
 
-    public LinkModel(String linkName, String linkURL) {
-        this(linkName, linkURL, "no description");
+    public LinkModel(Integer authorId, String linkName) {
+        this(authorId, linkName, DEFAULT_LINKURL);
     }
 
-    public LinkModel(String linkName, String linkURL, String description) {
-        this(1, linkName, linkURL, description);
+    public LinkModel(Integer authorId, String linkName, String linkURL) {
+        this(authorId, linkName, linkURL, DEFAULT_DESCRIPTION);
     }
 
     public LinkModel(Integer authorId, String linkName, String linkURL, String description) {

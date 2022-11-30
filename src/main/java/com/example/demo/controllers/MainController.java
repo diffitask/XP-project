@@ -13,39 +13,15 @@ import java.util.List;
 
 @Controller
 public class MainController {
-    //    private List<LinkModel> dummyLinks = new ArrayList<>(getDummyLinks());
-    private final LinkServiceInterface service = new StorageService();
+    private final LinkServiceInterface service = new StorageService("./src/main/java/com/example/demo/data-storage/users-link-lists-storage.json");
+    private static final int userId = 1; // TODO to be removed after adding multiple users support
 
     @RequestMapping("/")
     public String home(@ModelAttribute LinkModel linkModel, Model model) throws LinkServiceException {
-        service.saveLink(linkModel);
+        service.saveLink(userId, linkModel);
         model.addAttribute("title", "Main page");
-        model.addAttribute("links", service.getAllUserLinks(1));
-        model.addAttribute("linkModel", new LinkModel());
+        model.addAttribute("links", service.getAllUserLinks(userId));
+        model.addAttribute("linkModel", new LinkModel(userId));
         return "home";
     }
-
-    private List<LinkModel> getDummyLinks() {
-        return List.of(
-                new LinkModel("google",
-                        "https://www.google.com",
-                        "site google for searching"),
-                new LinkModel("google1",
-                        "google2.com",
-                        "site google for searching"),
-                new LinkModel("google2",
-                        "google3.com",
-                        "site google for searching"),
-                new LinkModel("google3",
-                        "google4.com",
-                        "site google for searching"),
-                new LinkModel("google5",
-                        "google5.com",
-                        "site google for searching"),
-                new LinkModel("google6",
-                        "google6.com",
-                        "site google for searching")
-        );
-    }
-
 }
