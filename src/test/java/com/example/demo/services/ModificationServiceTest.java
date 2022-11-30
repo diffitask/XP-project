@@ -70,7 +70,7 @@ public class ModificationServiceTest {
     private void fillDatabase() throws LinkServiceException {
         List<LinkModel> links = getDummyLinks();
         for (LinkModel link : getDummyLinks()) {
-            storageService.saveLink(link);
+            storageService.saveLink(TEST_ID, link);
         }
     }
 

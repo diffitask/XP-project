@@ -40,7 +40,7 @@ public class StorageServiceTest {
 
     @Test
     void testSaveSimple() throws LinkServiceException {
-        storageService.saveLink(defaultLink(""));
+        storageService.saveLink(TEST_ID, defaultLink(""));
         Assertions.assertEquals(defaultLink(""), storageService.getAllUserLinks(TEST_ID).get(0));
     }
 
@@ -49,7 +49,7 @@ public class StorageServiceTest {
         List<LinkModel> expectedLinks = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             expectedLinks.add(defaultLink(String.valueOf(i)));
-            storageService.saveLink(defaultLink(String.valueOf(i)));
+            storageService.saveLink(TEST_ID, defaultLink(String.valueOf(i)));
         }
         List<LinkModel> actualLinks = storageService.getAllUserLinks(TEST_ID);
 
@@ -71,7 +71,7 @@ public class StorageServiceTest {
         ));
 
         for (int i = 0; i < linksNames.size(); i++) {
-            storageService.saveLink(new LinkModel(TEST_ID, linksNames.get(i), "www.google.com", "-", linksTags.get(i), linksDates.get(i)));
+            storageService.saveLink(TEST_ID, new LinkModel(TEST_ID, linksNames.get(i), "www.google.com", "-", linksTags.get(i), linksDates.get(i)));
         }
 
         // sorting by name

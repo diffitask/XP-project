@@ -27,42 +27,20 @@ public class StorageService implements StorageServiceInterface {
     @Override
     public List<LinkModel> getAllUserLinks(Integer userId) throws LinkServiceException {
         MapSaver mapSaver = SerializingUtils.deserializeStructure(storageFileUrl, MapSaver.class);
-        HashMap<Integer, List<LinkModel>> usersLinkListMap = mapSaver.getUsersLinkListsMap();
-
-        if (usersLinkListMap != null && usersLinkListMap.containsKey(userId)) {
-            return usersLinkListMap.get(userId);
-        }
-
-        return new ArrayList<>();
+        return mapSaver.get(userId);
     }
 
     @Override
-    public void saveLink(LinkModel linkModel) throws LinkServiceException {
+    public void saveLink(Integer userId, LinkModel linkModel) throws LinkServiceException {
         MapSaver mapSaver = SerializingUtils.deserializeStructure(storageFileUrl, MapSaver.class);
-        HashMap<Integer, List<LinkModel>> usersLinkListMap = mapSaver.getUsersLinkListsMap();
+        List<LinkModel> userLinks = mapSaver.get(userId);
 
-        if (usersLinkListMap == null) {
-            usersLinkListMap = new HashMap<>();
-        }
-
-        if (usersLinkListMap.containsKey(1) && usersLinkListMap.get(1).contains(linkModel)) {
+        if (userLinks.contains(linkModel)) {
             return;
         }
 
-        // map editing
-        // TODO: при расширении функционала передавать в метод userId текущего пользователя, сохраняющего ссылку
-        int userId = 1;
-
-        List<LinkModel> userLinkList = new ArrayList<>();
-        if (usersLinkListMap.containsKey(userId)) {
-            userLinkList = usersLinkListMap.get(userId);
-        }
-
-        userLinkList.add(linkModel);
-        usersLinkListMap.put(userId, userLinkList);
-
-        // saving new information
-        mapSaver.setUsersLinkListsMap(usersLinkListMap);
+        userLinks.add(linkModel);
+        mapSaver.put(userId, userLinks);
         SerializingUtils.serializeStructure(storageFileUrl, mapSaver);
     }
 }

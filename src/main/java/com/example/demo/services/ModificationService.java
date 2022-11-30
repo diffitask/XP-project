@@ -34,7 +34,7 @@ public class ModificationService implements ModificationServiceInterface {
     public void changeLink(LinkModel oldLink, String newName, String newDescription, String newURL) throws ModificationServiceException, LinkServiceException {
         removeLink(oldLink);
         LinkModel newLink = new LinkModel(newName, newURL, newDescription);
-        storageService.saveLink(newLink);
+        storageService.saveLink(userId, newLink);
     }
 
     @Override

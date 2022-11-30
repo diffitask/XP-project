@@ -42,7 +42,13 @@ public class SortingServiceTest {
         ));
 
         for (int i = 0; i < linksNames.size(); i++) {
-            storageService.saveLink(new LinkModel(TEST_ID, linksNames.get(i), "www.google.com", "-", linksTags.get(i), linksDates.get(i)));
+            storageService.saveLink(TEST_ID,
+                    new LinkModel(TEST_ID,
+                            linksNames.get(i),
+                            "www.google.com",
+                            "-",
+                            linksTags.get(i),
+                            linksDates.get(i)));
         }
     }
 
