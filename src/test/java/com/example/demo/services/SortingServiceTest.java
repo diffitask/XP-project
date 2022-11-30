@@ -13,18 +13,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class LinkServiceTest {
+public class SortingServiceTest {
     private final int TEST_ID = 1;
     private StorageServiceInterface storageService;
     private SortingServiceInterface sortingService;
 
-    @BeforeEach
     void setService() {
         storageService = new StorageService();
         sortingService = new SortingService(storageService);
     }
 
-    @BeforeEach
     void clearFile() throws FileNotFoundException {
         String FILE_PATH = "./src/main/java/com/example/demo/data-storage/users-link-lists-storage.json";
         PrintWriter writer = new PrintWriter(FILE_PATH);
@@ -33,34 +31,7 @@ public class LinkServiceTest {
         writer.close();
     }
 
-    @Test
-    void testNothingSaved() throws LinkServiceException {
-        Assertions.assertTrue(storageService.getAllUserLinks(TEST_ID).isEmpty());
-    }
-
-    @Test
-    void testSaveSimple() throws LinkServiceException {
-        storageService.saveLink(defaultLink(""));
-        Assertions.assertEquals(defaultLink(""), storageService.getAllUserLinks(TEST_ID).get(0));
-    }
-
-    @Test
-    void testLinksOrder() throws LinkServiceException {
-        List<LinkModel> expectedLinks = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            expectedLinks.add(defaultLink(String.valueOf(i)));
-            storageService.saveLink(defaultLink(String.valueOf(i)));
-        }
-        List<LinkModel> actualLinks = storageService.getAllUserLinks(TEST_ID);
-
-        Assertions.assertEquals(expectedLinks.size(), actualLinks.size());
-        for (int i = 0; i < 10; i++) {
-            Assertions.assertEquals(expectedLinks.get(i), actualLinks.get(i));
-        }
-    }
-
-    @Test
-    void testSortingLinks() throws LinkServiceException {
+    void dataFilling() throws LinkServiceException {
         List<String> linksNames = new ArrayList<>(Arrays.asList("b", "x", "a", "y"));
         List<String> linksTags = new ArrayList<>(Arrays.asList("tag4", "tag1", "tag3", "tag2"));
         List<LocalDate> linksDates = new ArrayList<>(Arrays.asList(
@@ -73,8 +44,17 @@ public class LinkServiceTest {
         for (int i = 0; i < linksNames.size(); i++) {
             storageService.saveLink(new LinkModel(TEST_ID, linksNames.get(i), "www.google.com", "-", linksTags.get(i), linksDates.get(i)));
         }
+    }
 
-        // sorting by name
+    @BeforeEach
+    void preparation() throws FileNotFoundException, LinkServiceException {
+        setService();
+        clearFile();
+        dataFilling();
+    }
+
+    @Test
+    void testSortingNames() throws LinkServiceException {
         List<String> expectedSortedNames = new ArrayList<>(Arrays.asList("a", "b", "x", "y"));
         List<String> actualSortedNames = sortingService.sortLinksByName(TEST_ID).stream().map(LinkModel::getLinkName).toList();
 
@@ -82,9 +62,10 @@ public class LinkServiceTest {
         for (int i = 0; i < expectedSortedNames.size(); i++) {
             Assertions.assertEquals(expectedSortedNames.get(i), actualSortedNames.get(i));
         }
+    }
 
-
-        // sorting by tags
+    @Test
+    void testSortingTags() throws LinkServiceException {
         List<String> expectedSortedTags = new ArrayList<>(Arrays.asList("tag1", "tag2", "tag3", "tag4"));
         List<String> actualSortedTags = sortingService.sortLinksByTag(TEST_ID).stream().map(LinkModel::getTag).toList();
 
@@ -92,8 +73,10 @@ public class LinkServiceTest {
         for (int i = 0; i < expectedSortedTags.size(); i++) {
             Assertions.assertEquals(expectedSortedTags.get(i), actualSortedTags.get(i));
         }
+    }
 
-
+    @Test
+    void testSortingDates() throws LinkServiceException {
         // sorting by dates
         List<String> expectedSortedDates = new ArrayList<>(Arrays.asList(
                 LocalDate.of(2019, 1, 20),
@@ -109,7 +92,4 @@ public class LinkServiceTest {
         }
     }
 
-    private LinkModel defaultLink(String suffix) {
-        return new LinkModel(TEST_ID, "google" + suffix, "www.google.com", "search");
-    }
 }

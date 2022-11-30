@@ -10,14 +10,19 @@ import java.util.HashMap;
 import java.util.List;
 
 public class StorageService implements StorageServiceInterface {
-    private String storageFileUrl = "./src/main/java/com/example/demo/data-storage/users-link-lists-storage.json";
+    private final String storageFileUrl;
 
-    public StorageService() {}
+    public StorageService() {
+        this.storageFileUrl = "./src/main/java/com/example/demo/data-storage/users-link-lists-storage.json";
+    }
+
     public StorageService(String storageFileUrl) {
-        this();
         this.storageFileUrl = storageFileUrl;
     }
 
+    public String getStorageFileUrl() {
+        return storageFileUrl;
+    }
 
     @Override
     public List<LinkModel> getAllUserLinks(Integer userId) throws LinkServiceException {
