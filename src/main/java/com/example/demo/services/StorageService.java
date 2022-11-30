@@ -1,16 +1,19 @@
-package com.example.demo.models;
+package com.example.demo.services;
 
 import com.example.demo.exceptions.LinkServiceException;
+import com.example.demo.models.LinkModel;
+import com.example.demo.models.LinkServiceInterface;
+import com.example.demo.models.MapSaver;
 import com.example.demo.utils.SerializingUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class LinkService implements LinkServiceInterface {
+public class StorageService implements LinkServiceInterface {
     private final String storageFileUrl = "./src/main/java/com/example/demo/data-storage/users-link-lists-storage.json";
 
-    public LinkService() {}
+    public StorageService() {}
 
     @Override
     public List<LinkModel> getAllUserLinks(Integer userId) throws LinkServiceException {

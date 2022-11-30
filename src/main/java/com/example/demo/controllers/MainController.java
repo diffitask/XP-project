@@ -2,22 +2,19 @@ package com.example.demo.controllers;
 
 import com.example.demo.exceptions.LinkServiceException;
 import com.example.demo.models.LinkModel;
-import com.example.demo.models.LinkService;
+import com.example.demo.services.StorageService;
 import com.example.demo.models.LinkServiceInterface;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class MainController {
-//    private List<LinkModel> dummyLinks = new ArrayList<>(getDummyLinks());
-    private final LinkServiceInterface service = new LinkService();
+    //    private List<LinkModel> dummyLinks = new ArrayList<>(getDummyLinks());
+    private final LinkServiceInterface service = new StorageService();
 
     @RequestMapping("/")
     public String home(@ModelAttribute LinkModel linkModel, Model model) throws LinkServiceException {

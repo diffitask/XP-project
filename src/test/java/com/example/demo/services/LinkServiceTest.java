@@ -1,6 +1,8 @@
-package com.example.demo.models;
+package com.example.demo.services;
 
 import com.example.demo.exceptions.LinkServiceException;
+import com.example.demo.models.LinkModel;
+import com.example.demo.models.LinkServiceInterface;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +18,7 @@ public class LinkServiceTest {
 
     @BeforeEach
     void setService() {
-        service = new LinkService();
+        service = new StorageService();
     }
 
     @BeforeEach
