@@ -7,22 +7,28 @@ import java.util.Comparator;
 import java.util.List;
 
 public class SortingService implements SortingServiceInterface {
-    public SortingService() {
+    private final StorageServiceInterface storageService;
+
+    public SortingService(StorageServiceInterface storageService) {
+        this.storageService = storageService;
     }
 
-    public List<LinkModel> sortLinksByName(StorageService storageService, Integer userId) throws LinkServiceException {
+    @Override
+    public List<LinkModel> sortLinksByName(Integer userId) throws LinkServiceException {
         List<LinkModel> allLinks = storageService.getAllUserLinks(userId);
         allLinks.sort(Comparator.comparing(LinkModel::getLinkName));
         return allLinks;
     }
 
-    public List<LinkModel> sortLinksByTag(StorageService storageService, Integer userId) throws LinkServiceException {
+    @Override
+    public List<LinkModel> sortLinksByTag(Integer userId) throws LinkServiceException {
         List<LinkModel> allLinks = storageService.getAllUserLinks(userId);
         allLinks.sort(Comparator.comparing(LinkModel::getTag));
         return allLinks;
     }
 
-    public List<LinkModel> sortLinksByDate(StorageService storageService, Integer userId) throws LinkServiceException {
+    @Override
+    public List<LinkModel> sortLinksByDate(Integer userId) throws LinkServiceException {
         List<LinkModel> allLinks = storageService.getAllUserLinks(userId);
         allLinks.sort(Comparator.comparing(LinkModel::getLastEditingDate));
         return allLinks;
