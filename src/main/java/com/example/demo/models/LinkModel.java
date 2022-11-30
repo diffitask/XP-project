@@ -10,6 +10,7 @@ public class LinkModel {
     private String linkName;
     private String linkURL;
     private String description;
+    private String tag;
     private LocalDate lastEditingDate;
 
     public LinkModel() {

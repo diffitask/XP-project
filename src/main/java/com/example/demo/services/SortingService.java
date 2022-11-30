@@ -16,6 +16,12 @@ public class SortingService implements SortingServiceInterface {
         return allLinks;
     }
 
+    public List<LinkModel> sortLinksByTag(StorageService storageService, Integer userId) throws LinkServiceException {
+        List<LinkModel> allLinks = storageService.getAllUserLinks(userId);
+        allLinks.sort(Comparator.comparing(LinkModel::getTag));
+        return allLinks;
+    }
+
     public List<LinkModel> sortLinksByDate(StorageService storageService, Integer userId) throws LinkServiceException {
         List<LinkModel> allLinks = storageService.getAllUserLinks(userId);
         allLinks.sort(Comparator.comparing(LinkModel::getLastEditingDate));
