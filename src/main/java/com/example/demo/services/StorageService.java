@@ -19,10 +19,6 @@ public class StorageService implements StorageServiceInterface {
         this.storageFileUrl = storageFileUrl;
     }
 
-    public String getStorageFileUrl() {
-        return storageFileUrl;
-    }
-
     @Override
     public List<LinkModel> getAllUserLinks(Integer userId) throws LinkServiceException {
         MapSaver mapSaver = SerializingUtils.deserializeStructure(storageFileUrl, MapSaver.class);
@@ -57,5 +53,9 @@ public class StorageService implements StorageServiceInterface {
 
         mapSaver.setUsersLinkListsMap(usersLinkListMap);
         SerializingUtils.serializeStructure(getStorageFileUrl(), mapSaver);
+    }
+
+    public String getStorageFileUrl() {
+        return storageFileUrl;
     }
 }
