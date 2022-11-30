@@ -3,7 +3,6 @@ package com.example.demo.services;
 import com.example.demo.exceptions.LinkServiceException;
 import com.example.demo.exceptions.ModificationServiceException;
 import com.example.demo.models.LinkModel;
-import com.example.demo.models.LinkServiceInterface;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,7 +39,7 @@ public class ModificationServiceTest {
         List<LinkModel> oldLinks = storageService.getAllUserLinks(TEST_ID);
         List<LinkModel> expectedLinks = new ArrayList<>(oldLinks);
 
-        for (LinkModel link: oldLinks) {
+        for (LinkModel link : oldLinks) {
             service.removeLink(link);
             expectedLinks.remove(link);
             List<LinkModel> newLinks = storageService.getAllUserLinks(TEST_ID);
@@ -70,7 +69,7 @@ public class ModificationServiceTest {
 
     private void fillDatabase() throws LinkServiceException {
         List<LinkModel> links = getDummyLinks();
-        for (LinkModel link: getDummyLinks()) {
+        for (LinkModel link : getDummyLinks()) {
             storageService.saveLink(link);
         }
     }

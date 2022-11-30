@@ -2,8 +2,8 @@ package com.example.demo.controllers;
 
 import com.example.demo.exceptions.LinkServiceException;
 import com.example.demo.models.LinkModel;
+import com.example.demo.services.StorageServiceInterface;
 import com.example.demo.services.StorageService;
-import com.example.demo.models.LinkServiceInterface;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,7 +14,7 @@ import java.util.List;
 @Controller
 public class MainController {
     //    private List<LinkModel> dummyLinks = new ArrayList<>(getDummyLinks());
-    private final LinkServiceInterface service = new StorageService();
+    private final StorageServiceInterface service = new StorageService();
 
     @RequestMapping("/")
     public String home(@ModelAttribute LinkModel linkModel, Model model) throws LinkServiceException {

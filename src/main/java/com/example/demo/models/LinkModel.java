@@ -2,12 +2,16 @@ package com.example.demo.models;
 
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
 public class LinkModel {
     private final Integer authorId;
     private String linkName;
     private String linkURL;
     private String description;
+    private String tag;
+    private String creationDate;
 
     public LinkModel() {
         this("name");
@@ -30,5 +34,23 @@ public class LinkModel {
         this.linkURL = linkURL;
         this.linkName = linkName;
         this.description = description;
+    }
+
+    public LinkModel(Integer authorId, String linkName, String linkURL, String description, String tag) {
+        this.authorId = authorId;
+        this.linkURL = linkURL;
+        this.linkName = linkName;
+        this.description = description;
+        this.tag = tag;
+        this.creationDate = LocalDate.now().toString();
+    }
+
+    public LinkModel(Integer authorId, String linkName, String linkURL, String description, String tag, LocalDate date) {
+        this.authorId = authorId;
+        this.linkURL = linkURL;
+        this.linkName = linkName;
+        this.description = description;
+        this.tag = tag;
+        this.creationDate = date.toString();
     }
 }
