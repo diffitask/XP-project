@@ -14,21 +14,22 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SortingServiceTest {
+    private static final String FILE_PATH = "./src/main/java/com/example/demo/data-storage/users-link-lists-storage.json";
     private final int TEST_ID = 1;
     private StorageServiceInterface storageService;
     private SortingServiceInterface sortingService;
 
     void setService() {
-        storageService = new StorageService();
+        storageService = new StorageService(FILE_PATH);
         sortingService = new SortingService(storageService);
     }
 
-    void clearFile() throws FileNotFoundException {
-        String FILE_PATH = "./src/main/java/com/example/demo/data-storage/users-link-lists-storage.json";
-        PrintWriter writer = new PrintWriter(FILE_PATH);
-        writer.print("{\n}");
-        // other operations
-        writer.close();
+    void clearFile() {
+        try (PrintWriter writer = new PrintWriter(FILE_PATH)) {
+            writer.print("{\n}");
+        } catch (FileNotFoundException ignored) {
+            System.exit(1);
+        }
     }
 
     void dataFilling() throws LinkServiceException {
@@ -53,49 +54,47 @@ public class SortingServiceTest {
     }
 
     @BeforeEach
-    void preparation() throws FileNotFoundException, LinkServiceException {
+    void preparation() throws LinkServiceException {
         setService();
         clearFile();
         dataFilling();
     }
 
     @Test
-    void testSortingNames() throws LinkServiceException {
+    void testSortByName() throws LinkServiceException {
         List<String> expectedSortedNames = new ArrayList<>(Arrays.asList("a", "b", "x", "y"));
-        List<String> actualSortedNames = sortingService.sortLinksByName(TEST_ID).stream().map(LinkModel::getLinkName).toList();
+        List<String> actualSortedNames = sortingService.sortLinksByName(TEST_ID).stream()
+                .map(LinkModel::getLinkName)
+                .toList();
 
-        Assertions.assertEquals(expectedSortedNames.size(), actualSortedNames.size());
-        for (int i = 0; i < expectedSortedNames.size(); i++) {
-            Assertions.assertEquals(expectedSortedNames.get(i), actualSortedNames.get(i));
-        }
+        Assertions.assertArrayEquals(expectedSortedNames.toArray(), actualSortedNames.toArray());
     }
 
     @Test
-    void testSortingTags() throws LinkServiceException {
+    void testSortByTag() throws LinkServiceException {
         List<String> expectedSortedTags = new ArrayList<>(Arrays.asList("tag1", "tag2", "tag3", "tag4"));
-        List<String> actualSortedTags = sortingService.sortLinksByTag(TEST_ID).stream().map(LinkModel::getTag).toList();
+        List<String> actualSortedTags = sortingService.sortLinksByTag(TEST_ID).stream()
+                .map(LinkModel::getTag)
+                .toList();
 
-        Assertions.assertEquals(expectedSortedTags.size(), actualSortedTags.size());
-        for (int i = 0; i < expectedSortedTags.size(); i++) {
-            Assertions.assertEquals(expectedSortedTags.get(i), actualSortedTags.get(i));
-        }
+        Assertions.assertArrayEquals(expectedSortedTags.toArray(), actualSortedTags.toArray());
     }
 
     @Test
-    void testSortingDates() throws LinkServiceException {
-        // sorting by dates
+    void testSortByDate() throws LinkServiceException {
         List<String> expectedSortedDates = new ArrayList<>(Arrays.asList(
                 LocalDate.of(2019, 1, 20),
                 LocalDate.of(2020, 2, 20),
                 LocalDate.of(2021, 3, 20),
                 LocalDate.of(2022, 4, 20)
-        )).stream().map(LocalDate::toString).toList();
-        List<String> actualSortedDates = sortingService.sortLinksByDate(TEST_ID).stream().map(LinkModel::getCreationDate).toList();
+        )).stream()
+                .map(LocalDate::toString)
+                .toList();
+        List<String> actualSortedDates = sortingService.sortLinksByDate(TEST_ID).stream()
+                .map(LinkModel::getCreationDate)
+                .toList();
 
-        Assertions.assertEquals(expectedSortedDates.size(), actualSortedDates.size());
-        for (int i = 0; i < expectedSortedDates.size(); i++) {
-            Assertions.assertEquals(expectedSortedDates.get(i), actualSortedDates.get(i));
-        }
+        Assertions.assertArrayEquals(expectedSortedDates.toArray(), actualSortedDates.toArray());
     }
 
 }

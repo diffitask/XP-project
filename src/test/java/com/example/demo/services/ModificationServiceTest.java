@@ -3,6 +3,7 @@ package com.example.demo.services;
 import com.example.demo.exceptions.LinkServiceException;
 import com.example.demo.exceptions.ModificationServiceException;
 import com.example.demo.models.LinkModel;
+import com.example.demo.utils.TestHelper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,9 +13,11 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.demo.utils.TestHelper.getDummyLinks;
+
 public class ModificationServiceTest {
     private final int TEST_ID = 1;
-    private final String storagePath = "./src/test/java/com/example/demo/data-storage/users-link-lists-storage.json";
+    private final String storagePath = TestHelper.getTestStoragePath();
 
     ModificationServiceInterface service;
     StorageService storageService;
@@ -72,29 +75,6 @@ public class ModificationServiceTest {
         for (LinkModel link : getDummyLinks()) {
             storageService.saveLink(TEST_ID, link);
         }
-    }
-
-    private List<LinkModel> getDummyLinks() {
-        return List.of(
-                new LinkModel("google",
-                        "https://www.google.com",
-                        "site google for searching"),
-                new LinkModel("google1",
-                        "google2.com",
-                        "site google for searching"),
-                new LinkModel("google2",
-                        "google3.com",
-                        "site google for searching"),
-                new LinkModel("google3",
-                        "google4.com",
-                        "site google for searching"),
-                new LinkModel("google5",
-                        "google5.com",
-                        "site google for searching"),
-                new LinkModel("google6",
-                        "google6.com",
-                        "site google for searching")
-        );
     }
 
 }

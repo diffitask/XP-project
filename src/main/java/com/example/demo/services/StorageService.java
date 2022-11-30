@@ -5,7 +5,6 @@ import com.example.demo.models.LinkModel;
 import com.example.demo.models.MapSaver;
 import com.example.demo.utils.SerializingUtils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -42,5 +41,21 @@ public class StorageService implements StorageServiceInterface {
         userLinks.add(linkModel);
         mapSaver.put(userId, userLinks);
         SerializingUtils.serializeStructure(storageFileUrl, mapSaver);
+    }
+
+
+    @Override
+    public void saveListOfLinks(int userId, List<LinkModel> linksList) throws LinkServiceException {
+        MapSaver mapSaver = SerializingUtils.deserializeStructure(getStorageFileUrl(), MapSaver.class);
+        HashMap<Integer, List<LinkModel>> usersLinkListMap = mapSaver.getUsersLinkListsMap();
+
+        if (usersLinkListMap == null) {
+            usersLinkListMap = new HashMap<>();
+        }
+
+        usersLinkListMap.put(userId, linksList);
+
+        mapSaver.setUsersLinkListsMap(usersLinkListMap);
+        SerializingUtils.serializeStructure(getStorageFileUrl(), mapSaver);
     }
 }

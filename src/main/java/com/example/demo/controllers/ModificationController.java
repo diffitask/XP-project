@@ -18,7 +18,8 @@ public class ModificationController {
 
     // todo change html template
     @RequestMapping("/remove")
-    public String removeLink(@ModelAttribute LinkModel linkModel, Model model) throws LinkServiceException, ModificationServiceException {
+    public String removeLink(@ModelAttribute LinkModel linkModel, Model model)
+            throws LinkServiceException, ModificationServiceException {
         modificationService.removeLink(linkModel);
         model.addAttribute("title", "Main page");
         model.addAttribute("links", storageService.getAllUserLinks(1));
@@ -28,7 +29,8 @@ public class ModificationController {
 
     // todo change html template
     @RequestMapping("/change")
-    public String changeLink(@ModelAttribute ChangeRequest request, Model model) throws ModificationServiceException, LinkServiceException {
+    public String changeLink(@ModelAttribute ChangeRequest request, Model model)
+            throws ModificationServiceException, LinkServiceException {
         modificationService.changeLink(request.getOldLink(),
                 request.getNewName(),
                 request.getNewDescription(),

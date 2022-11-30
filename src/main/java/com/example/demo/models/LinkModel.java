@@ -30,10 +30,7 @@ public class LinkModel {
     }
 
     public LinkModel(Integer authorId, String linkName, String linkURL, String description) {
-        this.authorId = authorId;
-        this.linkURL = linkURL;
-        this.linkName = linkName;
-        this.description = description;
+        this(authorId, linkName, linkURL, description, null);
     }
 
     public LinkModel(Integer authorId, String linkName, String linkURL, String description, String tag) {

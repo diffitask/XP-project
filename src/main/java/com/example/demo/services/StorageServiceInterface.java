@@ -9,4 +9,6 @@ public interface StorageServiceInterface {
     List<LinkModel> getAllUserLinks(Integer userId) throws LinkServiceException;
 
     void saveLink(Integer userId, LinkModel linkModel) throws LinkServiceException;
+
+    void saveListOfLinks(int userId, List<LinkModel> linksList) throws LinkServiceException;
 }
