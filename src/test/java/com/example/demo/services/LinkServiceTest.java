@@ -15,8 +15,8 @@ import java.util.List;
 
 public class LinkServiceTest {
     private final int TEST_ID = 1;
-    StorageServiceInterface storageService;
-    SortingServiceInterface sortingService;
+    private StorageServiceInterface storageService;
+    private SortingServiceInterface sortingService;
 
     @BeforeEach
     void setService() {
@@ -62,7 +62,7 @@ public class LinkServiceTest {
     @Test
     void testSortingLinks() throws LinkServiceException {
         List<String> linksNames = new ArrayList<>(Arrays.asList("b", "x", "a", "y"));
-        List<String> linksTags = new ArrayList<>(Arrays.asList("tag2", "tag4", "tag1", "tag3"));
+        List<String> linksTags = new ArrayList<>(Arrays.asList("tag4", "tag1", "tag3", "tag2"));
         List<LocalDate> linksDates = new ArrayList<>(Arrays.asList(
                 LocalDate.of(2022, 4, 20),
                 LocalDate.of(2021, 3, 20),
@@ -71,7 +71,7 @@ public class LinkServiceTest {
         ));
 
         for (int i = 0; i < linksNames.size(); i++) {
-            storageService.saveLink(new LinkModel(TEST_ID, linksNames.get(i), "www.google.com", "-", linksTags.get(i)));
+            storageService.saveLink(new LinkModel(TEST_ID, linksNames.get(i), "www.google.com", "-", linksTags.get(i), linksDates.get(i)));
         }
 
         // sorting by name
@@ -86,7 +86,7 @@ public class LinkServiceTest {
 
         // sorting by tags
         List<String> expectedSortedTags = new ArrayList<>(Arrays.asList("tag1", "tag2", "tag3", "tag4"));
-        List<String> actualSortedTags = sortingService.sortLinksByName(TEST_ID).stream().map(LinkModel::getTag).toList();
+        List<String> actualSortedTags = sortingService.sortLinksByTag(TEST_ID).stream().map(LinkModel::getTag).toList();
 
         Assertions.assertEquals(expectedSortedTags.size(), actualSortedTags.size());
         for (int i = 0; i < expectedSortedTags.size(); i++) {
@@ -94,19 +94,19 @@ public class LinkServiceTest {
         }
 
 
-//        // sorting by dates
-//        List<String> expectedSortedDates = new ArrayList<>(Arrays.asList(
-//                LocalDate.of(2019, 1, 20),
-//                LocalDate.of(2020, 2, 20),
-//                LocalDate.of(2021, 3, 20),
-//                LocalDate.of(2022, 4, 20)
-//        )).stream().map(LocalDate::toString).toList();
-//        List<String> actualSortedDates = sortingService.sortLinksByName(TEST_ID).stream().map(LinkModel::getLastEditingDate).toList();
-//
-//        Assertions.assertEquals(expectedSortedDates.size(), actualSortedDates.size());
-//        for (int i = 0; i < expectedSortedDates.size(); i++) {
-//            Assertions.assertEquals(expectedSortedDates.get(i), actualSortedDates.get(i));
-//        }
+        // sorting by dates
+        List<String> expectedSortedDates = new ArrayList<>(Arrays.asList(
+                LocalDate.of(2019, 1, 20),
+                LocalDate.of(2020, 2, 20),
+                LocalDate.of(2021, 3, 20),
+                LocalDate.of(2022, 4, 20)
+        )).stream().map(LocalDate::toString).toList();
+        List<String> actualSortedDates = sortingService.sortLinksByDate(TEST_ID).stream().map(LinkModel::getCreationDate).toList();
+
+        Assertions.assertEquals(expectedSortedDates.size(), actualSortedDates.size());
+        for (int i = 0; i < expectedSortedDates.size(); i++) {
+            Assertions.assertEquals(expectedSortedDates.get(i), actualSortedDates.get(i));
+        }
     }
 
     private LinkModel defaultLink(String suffix) {

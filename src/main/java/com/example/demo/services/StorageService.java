@@ -10,8 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class StorageService implements StorageServiceInterface {
-    private static final String defaultStorageFileUrl = "./src/main/java/com/example/demo/data-storage/users-link-lists-storage.json";
-    private String storageFileUrl;
+    private String storageFileUrl = "./src/main/java/com/example/demo/data-storage/users-link-lists-storage.json";
 
     public StorageService() {}
     public StorageService(String storageFileUrl) {

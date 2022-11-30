@@ -11,7 +11,7 @@ public class LinkModel {
     private String linkURL;
     private String description;
     private String tag;
-    private String lastEditingDate;
+    private String creationDate;
 
     public LinkModel() {
         this("name");
@@ -42,7 +42,7 @@ public class LinkModel {
         this.linkName = linkName;
         this.description = description;
         this.tag = tag;
-        this.lastEditingDate = LocalDate.now().toString();
+        this.creationDate = LocalDate.now().toString();
     }
 
     public LinkModel(Integer authorId, String linkName, String linkURL, String description, String tag, LocalDate date) {
@@ -51,11 +51,6 @@ public class LinkModel {
         this.linkName = linkName;
         this.description = description;
         this.tag = tag;
-        this.lastEditingDate = date.toString();
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-        this.lastEditingDate = LocalDate.now().toString();
+        this.creationDate = date.toString();
     }
 }

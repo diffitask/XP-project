@@ -30,7 +30,7 @@ public class SortingService implements SortingServiceInterface {
     @Override
     public List<LinkModel> sortLinksByDate(Integer userId) throws LinkServiceException {
         List<LinkModel> allLinks = storageService.getAllUserLinks(userId);
-        allLinks.sort(Comparator.comparing(LinkModel::getLastEditingDate));
+        allLinks.sort(Comparator.comparing(LinkModel::getCreationDate));
         return allLinks;
     }
 }
