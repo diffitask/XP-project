@@ -8,15 +8,14 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.demo.utils.TestHelper.fillDatabase;
 import static com.example.demo.utils.TestHelper.getDummyLinks;
 
 public class ModificationServiceTest {
-    private final int TEST_ID = 1;
+    private final int TEST_ID = TestHelper.getTestId();
     private final String storagePath = TestHelper.getTestStoragePath();
 
     ModificationServiceInterface service;
@@ -24,20 +23,14 @@ public class ModificationServiceTest {
 
     @BeforeEach
     void setup() {
+        TestHelper.setupEmptyTestStorage();
         storageService = new StorageService(storagePath);
         service = new ModificationService(storageService);
     }
 
-    @BeforeEach
-    void clearFile() throws FileNotFoundException {
-        PrintWriter writer = new PrintWriter(storagePath);
-        writer.print("{\n}");
-        writer.close();
-    }
-
     @Test
     void testRemoveLink() throws LinkServiceException, ModificationServiceException {
-        fillDatabase();
+        fillDatabase(storageService);
 
         List<LinkModel> oldLinks = storageService.getAllUserLinks(TEST_ID);
         List<LinkModel> expectedLinks = new ArrayList<>(oldLinks);
@@ -53,7 +46,7 @@ public class ModificationServiceTest {
 
     @Test
     void testChangeLink() throws LinkServiceException, ModificationServiceException {
-        fillDatabase();
+        fillDatabase(storageService);
         LinkModel oldLink = getDummyLinks().get(0);
         LinkModel changedLink = new LinkModel("new-name",
                 "new-description",
@@ -68,13 +61,4 @@ public class ModificationServiceTest {
         Assertions.assertTrue(links.contains(changedLink));
         Assertions.assertFalse(links.contains(oldLink));
     }
-
-
-    private void fillDatabase() throws LinkServiceException {
-        List<LinkModel> links = getDummyLinks();
-        for (LinkModel link : getDummyLinks()) {
-            storageService.saveLink(TEST_ID, link);
-        }
-    }
-
 }
