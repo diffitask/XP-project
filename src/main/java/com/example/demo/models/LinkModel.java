@@ -2,12 +2,15 @@ package com.example.demo.models;
 
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
 public class LinkModel {
     private final Integer authorId;
     private String linkName;
     private String linkURL;
     private String description;
+    private LocalDate lastEditingDate;
 
     public LinkModel() {
         this("name");

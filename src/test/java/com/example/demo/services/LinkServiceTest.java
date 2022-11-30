@@ -2,7 +2,6 @@ package com.example.demo.services;
 
 import com.example.demo.exceptions.LinkServiceException;
 import com.example.demo.models.LinkModel;
-import com.example.demo.models.LinkServiceInterface;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,7 @@ import java.util.List;
 
 public class LinkServiceTest {
     private final int TEST_ID = 1;
-    LinkServiceInterface service;
+    StorageServiceInterface service;
 
     @BeforeEach
     void setService() {

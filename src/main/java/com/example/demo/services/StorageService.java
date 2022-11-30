@@ -2,7 +2,6 @@ package com.example.demo.services;
 
 import com.example.demo.exceptions.LinkServiceException;
 import com.example.demo.models.LinkModel;
-import com.example.demo.models.LinkServiceInterface;
 import com.example.demo.models.MapSaver;
 import com.example.demo.utils.SerializingUtils;
 
@@ -10,8 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class StorageService implements LinkServiceInterface {
-    private final String storageFileUrl = "./src/main/java/com/example/demo/data-storage/users-link-lists-storage.json";
+public class StorageService implements StorageServiceInterface {
+    private static final String storageFileUrl = "./src/main/java/com/example/demo/data-storage/users-link-lists-storage.json";
 
     public StorageService() {}
 
