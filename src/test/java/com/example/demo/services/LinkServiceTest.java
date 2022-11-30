@@ -13,21 +13,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LinkServiceTest {
-    private final int TEST_ID = 1;
+    private static final int TEST_ID = 1;
+    private static final String FILE_PATH = "./src/main/java/com/example/demo/data-storage/users-link-lists-storage.json";
     LinkServiceInterface service;
 
     @BeforeEach
-    void setService() {
-        service = new StorageService();
-    }
-
-    @BeforeEach
-    void clearFile() throws FileNotFoundException {
-        String FILE_PATH = "./src/main/java/com/example/demo/data-storage/users-link-lists-storage.json";
-        PrintWriter writer = new PrintWriter(FILE_PATH);
-        writer.print("{\n}");
-        // other operations
-        writer.close();
+    void setUp() {
+        try (PrintWriter writer = new PrintWriter(FILE_PATH)) {
+            writer.print("{\n}");
+        } catch (FileNotFoundException ignored) {
+            System.exit(1);
+        }
+        service = new StorageService(FILE_PATH);
     }
 
     @Test
@@ -37,22 +34,22 @@ public class LinkServiceTest {
 
     @Test
     void testSaveSimple() throws LinkServiceException {
-        service.saveLink(defaultLink(""));
-        Assertions.assertEquals(defaultLink(""), service.getAllUserLinks(TEST_ID).get(0));
+        service.saveLink(TEST_ID, defaultLink(""));
+        List<LinkModel> userLinks = service.getAllUserLinks(TEST_ID);
+        Assertions.assertEquals(1, userLinks.size());
+        Assertions.assertEquals(defaultLink(""), userLinks.get(0));
     }
 
     @Test
     void testLinksOrder() throws LinkServiceException {
         List<LinkModel> expectedLinks = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            expectedLinks.add(defaultLink(String.valueOf(i)));
-            service.saveLink(defaultLink(String.valueOf(i)));
+        for (int i = 0; i < 10; ++i) {
+            LinkModel toAdd = defaultLink(String.valueOf(i));
+            expectedLinks.add(toAdd);
+            service.saveLink(TEST_ID, toAdd);
         }
         List<LinkModel> actualLinks = service.getAllUserLinks(TEST_ID);
-        Assertions.assertEquals(expectedLinks.size(), actualLinks.size());
-        for (int i = 0; i < 10; i++) {
-            Assertions.assertEquals(expectedLinks.get(i), actualLinks.get(i));
-        }
+        Assertions.assertArrayEquals(expectedLinks.toArray(), actualLinks.toArray());
     }
 
     private LinkModel defaultLink(String suffix) {
