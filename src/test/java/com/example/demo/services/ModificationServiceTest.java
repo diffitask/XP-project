@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ModificationServiceTest {
@@ -37,13 +38,14 @@ public class ModificationServiceTest {
         fillDatabase();
 
         List<LinkModel> oldLinks = storageService.getAllUserLinks(TEST_ID);
+        List<LinkModel> expectedLinks = new ArrayList<>(oldLinks);
 
         for (LinkModel link: oldLinks) {
             service.removeLink(link);
-            oldLinks.remove(link);
+            expectedLinks.remove(link);
             List<LinkModel> newLinks = storageService.getAllUserLinks(TEST_ID);
             Assertions.assertFalse(newLinks.contains(link));
-            Assertions.assertTrue(oldLinks.containsAll(newLinks));
+            Assertions.assertTrue(expectedLinks.containsAll(newLinks));
         }
     }
 
